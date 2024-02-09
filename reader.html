@@ -68,26 +68,29 @@
         });
 
         function switchCamera(direction) {
-            if (cameras.length > 1) {
-                if (direction === 'next') {
-                    if (currentCameraIndex < cameras.length - 1) {
-                        currentCameraIndex = (currentCameraIndex + 1);
+            try {
+                if (cameras.length > 1) {
+                    if (direction === 'next') {
+                        if (currentCameraIndex < cameras.length - 1) {
+                            currentCameraIndex = (currentCameraIndex + 1);
+                        } else {
+                            currentCameraIndex = 0;
+                        }
+                    } else if (direction === 'previous') {
+                        if (currentCameraIndex > 0) {
+                            currentCameraIndex = (currentCameraIndex - 1);
+                        } else {
+                            currentCameraIndex = cameras.length - 1;
+                        }
                     }
-                    else {
-                        currentCameraIndex = 0;
-                    }
+                    scanner.stop();
+                    scanner.start(cameras[currentCameraIndex]);
                 }
-                else if (direction === 'previous') {
-                    if (currentCameraIndex > 0) {
-                        currentCameraIndex = (currentCameraIndex - 1);
-                    }
-                    else {
-                        currentCameraIndex =  cameras.length - 1;
-                    }
-                }
-                scanner.stop();
-                scanner.start(cameras[currentCameraIndex]);
             }
+            catch (error) {
+                document.write(error);
+            }
+
         }
     </script>
 </body>
