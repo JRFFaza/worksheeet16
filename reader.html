@@ -70,10 +70,20 @@
         function switchCamera(direction) {
             if (cameras.length > 1) {
                 if (direction === 'next') {
-                    currentCameraIndex = (currentCameraIndex + 1);
+                    if (currentCameraIndex < cameras.length - 1) {
+                        currentCameraIndex = (currentCameraIndex + 1);
+                    }
+                    else {
+                        currentCameraIndex = 0;
+                    }
                 }
                 else if (direction === 'previous') {
-                    currentCameraIndex = (currentCameraIndex - 1 + cameras.length);
+                    if (currentCameraIndex > cameras.length - 1) {
+                        currentCameraIndex = (currentCameraIndex - 1);
+                    }
+                    else {
+                        currentCameraIndex = 1;
+                    }
                 }
                 scanner.stop();
                 scanner.start(cameras[currentCameraIndex]);
