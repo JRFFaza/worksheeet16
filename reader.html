@@ -48,18 +48,18 @@
         // var cameras;
         var currentCameraIndex = 0;
 
-        function switchCameras() {
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    console.error('No cameras found.');
-                    alert("No cameras found.");
-                }
-            }).catch(function (e) {
-                console.error(e);
-            });
-        }
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            }
+            else {
+                console.error('No cameras found.');
+                alert("No cameras found.");
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+
 
         scanner.addListener('scan', function (content) {
             console.log(content);
@@ -70,34 +70,40 @@
 
         function switchCamera(direction) {
 
-            switchCameras();
-
-            try {
-                if (cameras.length > 1) {
-                    if (direction === 'next') {
-                        if (currentCameraIndex < cameras.length - 1) {
-                            currentCameraIndex = (currentCameraIndex + 1);
-                        } else {
-                            currentCameraIndex = 0;
-                        }
-                    } else if (direction === 'previous') {
-                        if (currentCameraIndex > 0) {
-                            currentCameraIndex = (currentCameraIndex - 1);
-                        } else {
-                            currentCameraIndex = cameras.length - 1;
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    try {
+                        if (cameras.length > 1) {
+                            if (direction === 'next') {
+                                if (currentCameraIndex < cameras.length - 1) {
+                                    currentCameraIndex = (currentCameraIndex + 1);
+                                } else {
+                                    currentCameraIndex = 0;
+                                }
+                            } else if (direction === 'previous') {
+                                if (currentCameraIndex > 0) {
+                                    currentCameraIndex = (currentCameraIndex - 1);
+                                } else {
+                                    currentCameraIndex = cameras.length - 1;
+                                }
+                            }
+                            scanner.stop();
+                            scanner.start(cameras[currentCameraIndex]);
                         }
                     }
-                    scanner.stop();
-                    scanner.start(cameras[currentCameraIndex]);
+                    catch (error) {
+                        document.write(error);
+                    }
                 }
-            }
-            catch (error) {
-                document.write(error);
-            }
+                else {
+                    console.error('No cameras found.');
+                    alert("No cameras found.");
+                }
+            }).catch(function (e) {
+                console.error(e);
+            });
 
         }
-
-        switchCameras();
     </script>
 </body>
 </html>
