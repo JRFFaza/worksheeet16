@@ -78,11 +78,11 @@
                     }
                 }
                 else if (direction === 'previous') {
-                    if (currentCameraIndex > cameras.length - 1) {
+                    if (currentCameraIndex > 0) {
                         currentCameraIndex = (currentCameraIndex - 1);
                     }
                     else {
-                        currentCameraIndex = 1;
+                        currentCameraIndex =  cameras.length - 1;
                     }
                 }
                 scanner.stop();
